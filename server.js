@@ -3,6 +3,7 @@
 
 const express = require("express");
 const session = require("express-session");
+const path = require("path");
 const { Pool } = require("pg");
 
 const app = express();
@@ -45,7 +46,32 @@ app.get("/api/health", (req, res) => {
     message: "FUNDI-DIGITAL STORE server is running"
   });
 });
+app.get("/api/db-health", async (req, res) => {
+  if (!pool) {
+    return res.status(503).json({
+      success: false,
+      database: "not_configured"
+    });
+  }
 
+  try {
+    await pool.query("SELECT 1");
+
+    return res.status(200).json({
+      success: true,
+      database: "connected",
+      message: "Neon database connected"
+    });
+  } catch (error) {
+    console.error("Database check failed:", error.message);
+
+    return res.status(503).json({
+      success: false,
+      database: "disconnected",
+      message: "Database connection failed"
+    });
+  }
+});
 // Kushughulikia kurasa ambazo hazijapatikana
 app.use((req, res) => {
   res.status(404).json({
