@@ -7,6 +7,7 @@ const path = require("path");
 const { Pool } = require("pg");
 
 const app = express();
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 const PORT = process.env.PORT || 10000;
 const pool = process.env.DATABASE_URL
   ? new Pool({
