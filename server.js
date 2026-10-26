@@ -3,11 +3,17 @@
 
 const express = require("express");
 const session = require("express-session");
-const path = require("path");
+const { Pool } = require("pg");
 
 const app = express();
 const PORT = process.env.PORT || 10000;
-
+const pool = process.env.DATABASE_URL
+  ? new Pool({
+      connectionString: process.env.DATABASE_URL,
+      ssl: { rejectUnauthorized: false },
+      connectionTimeoutMillis: 10000
+    })
+  : null;
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
