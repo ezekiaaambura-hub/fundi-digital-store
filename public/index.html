@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#030806">
+  <title>FUNDI-DIGITAL STORE</title>
+  <style>
+    :root {
+      --bg: #030806;
+      --panel: #0a1711;
+      --green: #00e676;
+      --gold: #e8c766;
+      --text: #f4fff7;
+      --muted: #b3c2b8;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+    }
+
+    header {
+      padding: 18px 5%;
+      border-bottom: 1px solid #17452d;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      color: var(--green);
+      font-size: 21px;
+      font-weight: 800;
+    }
+
+    nav a {
+      color: var(--text);
+      text-decoration: none;
+      margin-left: 14px;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 65px 20px 45px;
+      background: radial-gradient(ellipse at top, #10351f, var(--bg) 72%);
+    }
+
+    .hero h1 {
+      color: var(--green);
+      font-size: clamp(30px, 7vw, 48px);
+      line-height: 1.2;
+    }
+
+    .hero p { color: var(--muted); }
+
+    .button {
+      display: inline-block;
+      background: var(--green);
+      color: #031008;
+      padding: 12px 22px;
+      margin-top: 12px;
+      border-radius: 9px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    section {
+      max-width: 1000px;
+      margin: auto;
+      padding: 28px 18px;
+    }
+
+    h2 { color: var(--gold); }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .product {
+      background: var(--panel);
+      border: 1px solid #17452d;
+      padding: 20px;
+      border-radius: 14px;
+    }
+
+    .product h3 { color: var(--green); }
+
+    .price {
+      color: var(--gold);
+      font-size: 19px;
+      font-weight: bold;
+    }
+
+    .notice {
+      border-left: 4px solid var(--green);
+      padding: 12px;
+      background: var(--panel);
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px 15px;
+      border-top: 1px solid #17452d;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">🛒 FUNDI-DIGITAL STORE</div>
+    <nav>
+      <a href="#home">Nyumbani</a>
+      <a href="#bidhaa">Bidhaa</a>
+      <a href="#usalama">Malipo</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <h1>Mifumo, Programu na Huduma za Kidijitali</h1>
+      <p>Pata suluhisho la kidijitali unalohitaji, sehemu moja.</p>
+      <a class="button" href="#bidhaa">Angalia Bidhaa</a>
+    </section>
+
+    <section id="bidhaa">
+      <h2>Bidhaa na Huduma Zetu</h2>
+      <div class="products">
+        <article class="product">
+          <h3>📶 Mifumo ya Wi-Fi</h3>
+          <p>Mifumo ya vocha na huduma za MikroTik.</p>
+          <p class="price">Bei itawekwa</p>
+        </article>
+
+        <article class="product">
+          <h3>💻 Programu za Kompyuta</h3>
+          <p>Programu na zana za kidijitali.</p>
+          <p class="price">Bei itawekwa</p>
+        </article>
+
+        <article class="product">
+          <h3>📱 Huduma za Simu</h3>
+          <p>Zana na faili za matengenezo zilizoidhinishwa.</p>
+          <p class="price">Bei itawekwa</p>
+        </article>
+
+        <article class="product">
+          <h3>🛠️ Huduma za Kidijitali</h3>
+          <p>Mifumo, usanidi na usaidizi wa kiufundi.</p>
+          <p class="price">Wasiliana nasi</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="usalama">
+      <h2>Malipo na Usalama</h2>
+      <div class="notice">
+        Bidhaa za kupakua zitatolewa baada ya malipo kuthibitishwa.
+        Mfumo wa malipo na upakuaji salama bado unaandaliwa.
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2026 FUNDI-DIGITAL STORE</p>
+    <p>Mifumo • Programu • Huduma za Kidijitali</p>
+  </footer>
+</body>
+</html>
