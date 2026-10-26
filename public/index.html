@@ -5,75 +5,164 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#030806">
+  <meta name="description" content="FUNDI-DIGITAL STORE: mifumo ya MikroTik, programu za simu na huduma za kidijitali.">
   <title>FUNDI-DIGITAL STORE</title>
+
   <style>
     :root {
       --bg: #030806;
       --panel: #0a1711;
       --green: #00e676;
       --gold: #e8c766;
-      --text: #f4fff7;
+      --white: #f4fff7;
       --muted: #b3c2b8;
+      --border: #19472e;
     }
 
     * { box-sizing: border-box; }
 
+    html { scroll-behavior: smooth; }
+
     body {
       margin: 0;
       background: var(--bg);
-      color: var(--text);
-      font-family: Arial, sans-serif;
+      color: var(--white);
+      font-family: Arial, Helvetica, sans-serif;
       line-height: 1.6;
     }
 
-    header {
-      padding: 18px 5%;
-      border-bottom: 1px solid #17452d;
+    button, a { -webkit-tap-highlight-color: transparent; }
+
+    .gate {
+      min-height: 100vh;
+      min-height: 100dvh;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
+      justify-content: center;
+      padding: 28px 20px;
+      text-align: center;
+      background:
+        radial-gradient(ellipse at 50% 35%, #104324 0%, #07160d 38%, #030806 76%);
+    }
+
+    .gate-inner {
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .logo {
+      width: 176px;
+      height: 176px;
+      margin: 0 auto 12px;
+      display: block;
+      filter: drop-shadow(0 0 20px #00e67635);
     }
 
     .brand {
       color: var(--green);
-      font-size: 21px;
+      font-size: clamp(25px, 6vw, 36px);
+      font-weight: 900;
+      line-height: 1.2;
+      letter-spacing: 1px;
+      margin: 12px 0;
+    }
+
+    .gold {
+      color: var(--gold);
+      letter-spacing: 3px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .intro {
+      color: var(--muted);
+      margin: 20px auto;
+      max-width: 340px;
+    }
+
+    .btn {
+      border: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--green);
+      color: #031008;
+      padding: 14px 25px;
+      min-height: 48px;
+      border-radius: 10px;
+      font-size: 16px;
       font-weight: 800;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 0 22px #00e67620;
+    }
+
+    .btn:active { transform: scale(.98); }
+
+    .gate .btn { width: min(100%, 300px); }
+
+    .gate-footer {
+      margin-top: 30px;
+      color: #82968a;
+      font-size: 12px;
+    }
+
+    #store { display: none; }
+
+    header {
+      padding: 15px 5%;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      background: #050d08;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--green);
+      font-weight: 900;
+      font-size: 16px;
+    }
+
+    .mini-logo { width: 42px; height: 42px; }
+
+    nav {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
     }
 
     nav a {
-      color: var(--text);
+      color: var(--white);
       text-decoration: none;
-      margin-left: 14px;
+      font-size: 14px;
     }
+
+    nav a:hover { color: var(--green); }
 
     .hero {
       text-align: center;
-      padding: 65px 20px 45px;
-      background: radial-gradient(ellipse at top, #10351f, var(--bg) 72%);
+      padding: 48px 18px;
+      background: radial-gradient(ellipse at top, #10351f, var(--bg) 75%);
     }
 
     .hero h1 {
       color: var(--green);
-      font-size: clamp(30px, 7vw, 48px);
+      font-size: clamp(28px, 6vw, 43px);
       line-height: 1.2;
+      max-width: 760px;
+      margin: 10px auto;
     }
 
     .hero p { color: var(--muted); }
 
-    .button {
-      display: inline-block;
-      background: var(--green);
-      color: #031008;
-      padding: 12px 22px;
-      margin-top: 12px;
-      border-radius: 9px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    section {
+    section.content {
       max-width: 1000px;
       margin: auto;
       padding: 28px 18px;
@@ -83,97 +172,273 @@
 
     .products {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 18px;
     }
 
     .product {
-      background: var(--panel);
-      border: 1px solid #17452d;
-      padding: 20px;
-      border-radius: 14px;
+      background: linear-gradient(145deg, #0c1d13, #07100b);
+      border: 1px solid var(--border);
+      padding: 22px;
+      border-radius: 15px;
+    }
+
+    .product-icon {
+      font-size: 38px;
+      margin-bottom: 6px;
     }
 
     .product h3 { color: var(--green); }
 
+    .product p { color: var(--muted); }
+
     .price {
-      color: var(--gold);
-      font-size: 19px;
-      font-weight: bold;
+      color: var(--gold) !important;
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .product .btn {
+      width: 100%;
+      margin-top: 8px;
+      font-size: 14px;
+      padding: 12px;
     }
 
     .notice {
       border-left: 4px solid var(--green);
-      padding: 12px;
+      padding: 14px;
       background: var(--panel);
+      color: var(--muted);
+      border-radius: 0 10px 10px 0;
+    }
+
+    .contact {
+      text-align: center;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      border-radius: 16px;
+      padding: 24px 18px;
     }
 
     footer {
       text-align: center;
-      padding: 25px 15px;
-      border-top: 1px solid #17452d;
+      padding: 24px 15px;
+      border-top: 1px solid var(--border);
       color: var(--muted);
+      font-size: 13px;
+    }
+
+    footer strong { color: var(--green); }
+
+    @media (max-width: 480px) {
+      header { justify-content: center; }
+      nav { justify-content: center; gap: 13px; }
+      .logo { width: 150px; height: 150px; }
     }
   </style>
 </head>
+
 <body>
-  <header>
-    <div class="brand">🛒 FUNDI-DIGITAL STORE</div>
-    <nav>
-      <a href="#home">Nyumbani</a>
-      <a href="#bidhaa">Bidhaa</a>
-      <a href="#usalama">Malipo</a>
-    </nav>
-  </header>
 
-  <main>
-    <section class="hero" id="home">
-      <h1>Mifumo, Programu na Huduma za Kidijitali</h1>
-      <p>Pata suluhisho la kidijitali unalohitaji, sehemu moja.</p>
-      <a class="button" href="#bidhaa">Angalia Bidhaa</a>
-    </section>
+  <!-- UKURASA WA MWANZO: NEMBO NA MLANGO WA DUKA -->
+  <main id="welcome" class="gate">
+    <div class="gate-inner">
 
-    <section id="bidhaa">
-      <h2>Bidhaa na Huduma Zetu</h2>
-      <div class="products">
-        <article class="product">
-          <h3>📶 Mifumo ya Wi-Fi</h3>
-          <p>Mifumo ya vocha na huduma za MikroTik.</p>
-          <p class="price">Bei itawekwa</p>
-        </article>
+      <svg class="logo" viewBox="0 0 200 200"
+           xmlns="http://www.w3.org/2000/svg"
+           role="img" aria-label="Nembo ya FUNDI-DIGITAL STORE">
+        <defs>
+          <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#ffe9a0"/>
+            <stop offset="50%" stop-color="#e8c766"/>
+            <stop offset="100%" stop-color="#98752c"/>
+          </linearGradient>
+        </defs>
 
-        <article class="product">
-          <h3>💻 Programu za Kompyuta</h3>
-          <p>Programu na zana za kidijitali.</p>
-          <p class="price">Bei itawekwa</p>
-        </article>
+        <path d="M100 8 L166 34 L178 91
+                 Q168 145 100 190
+                 Q32 145 22 91 L34 34 Z"
+              fill="#07130c" stroke="url(#metal)" stroke-width="4"/>
 
-        <article class="product">
-          <h3>📱 Huduma za Simu</h3>
-          <p>Zana na faili za matengenezo zilizoidhinishwa.</p>
-          <p class="price">Bei itawekwa</p>
-        </article>
+        <path d="M100 19 L155 41 L165 91
+                 Q155 137 100 174
+                 Q45 137 35 91 L45 41 Z"
+              fill="none" stroke="#00e676" stroke-width="2"/>
 
-        <article class="product">
-          <h3>🛠️ Huduma za Kidijitali</h3>
-          <p>Mifumo, usanidi na usaidizi wa kiufundi.</p>
-          <p class="price">Wasiliana nasi</p>
-        </article>
+        <path d="M57 61 H115 Q138 61 138 84
+                 Q138 105 115 105 H81 V137 H57 Z"
+              fill="none" stroke="#00e676" stroke-width="9"
+              stroke-linejoin="round"/>
+
+        <path d="M101 105 L132 137"
+              stroke="url(#metal)" stroke-width="9"
+              stroke-linecap="round"/>
+
+        <circle cx="145" cy="55" r="5" fill="#e8c766"/>
+        <path d="M145 60 V72 H157"
+              fill="none" stroke="#e8c766" stroke-width="3"/>
+        <circle cx="157" cy="72" r="3" fill="#00e676"/>
+      </svg>
+
+      <div class="gold">TEKNOLOJIA • UBUNIFU • SULUHISHO</div>
+      <h1 class="brand">FUNDI-DIGITAL<br>STORE</h1>
+
+      <p class="intro">
+        Karibu kwenye duka la mifumo ya mtandao,
+        programu za simu na huduma za kidijitali.
+      </p>
+
+      <button class="btn" id="enterStore" type="button">
+        INGIA DUKANI <span aria-hidden="true">➜</span>
+      </button>
+
+      <div class="gate-footer">
+        Huduma bora za kidijitali, sehemu moja.<br>
+        © 2026 FUNDI-DIGITAL STORE
       </div>
-    </section>
-
-    <section id="usalama">
-      <h2>Malipo na Usalama</h2>
-      <div class="notice">
-        Bidhaa za kupakua zitatolewa baada ya malipo kuthibitishwa.
-        Mfumo wa malipo na upakuaji salama bado unaandaliwa.
-      </div>
-    </section>
+    </div>
   </main>
 
-  <footer>
-    <p>© 2026 FUNDI-DIGITAL STORE</p>
-    <p>Mifumo • Programu • Huduma za Kidijitali</p>
-  </footer>
+  <!-- BIDHAA HUONEKANA BAADA YA KUBONYEZA INGIA DUKANI -->
+  <div id="store">
+
+    <header>
+      <div class="header-brand">
+        <svg class="mini-logo" viewBox="0 0 200 200"
+             xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M100 8 L166 34 L178 91 Q168 145 100 190
+                   Q32 145 22 91 L34 34 Z"
+                fill="#07130c" stroke="#e8c766" stroke-width="5"/>
+          <path d="M57 61 H115 Q138 61 138 84
+                   Q138 105 115 105 H81 V137 H57 Z"
+                fill="none" stroke="#00e676" stroke-width="12"/>
+          <path d="M101 105 L132 137"
+                stroke="#e8c766" stroke-width="10"
+                stroke-linecap="round"/>
+        </svg>
+        <span>FUNDI-DIGITAL STORE</span>
+      </div>
+
+      <nav aria-label="Menyu kuu">
+        <a href="#home">Nyumbani</a>
+        <a href="#bidhaa">Bidhaa</a>
+        <a href="#malipo">Malipo</a>
+        <a href="#huduma">Mawasiliano</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="home">
+        <div class="gold">DUKA RASMI LA KIDIJITALI</div>
+        <h1>Mifumo, Programu na Huduma za Kidijitali</h1>
+        <p>Pata suluhisho la teknolojia unalohitaji.</p>
+        <a class="btn" href="#bidhaa">ANGALIA BIDHAA</a>
+      </section>
+
+      <section class="content" id="bidhaa">
+        <h2>Bidhaa Zetu</h2>
+        <p style="color:var(--muted)">
+          Chagua bidhaa unayotaka na wasiliana nasi kwa hatua za ununuzi.
+        </p>
+
+        <div class="products">
+
+          <article class="product">
+            <div class="product-icon" aria-hidden="true">📡</div>
+            <h3>Mfumo wa MikroTik</h3>
+            <p>
+              Suluhisho la mtandao na Wi-Fi.
+              Maelezo ya mfumo yatathibitishwa kabla ya ununuzi.
+            </p>
+            <div class="price">TSh 30,000</div>
+            <button class="btn order-btn"
+                    type="button"
+                    data-product="Mfumo wa MikroTik"
+                    data-price="30000">
+              Ulizia bidhaa
+            </button>
+          </article>
+
+          <article class="product">
+            <div class="product-icon" aria-hidden="true">📱</div>
+            <h3>Programu ya Kuflash Simu</h3>
+            <p>
+              Programu na zana za huduma za simu.
+              Upatikanaji na ulinganifu vitathibitishwa.
+            </p>
+            <div class="price">TSh 5,000</div>
+            <button class="btn order-btn"
+                    type="button"
+                    data-product="Programu ya kuflash simu"
+                    data-price="5000">
+              Ulizia bidhaa
+            </button>
+          </article>
+
+        </div>
+      </section>
+
+      <section class="content" id="malipo">
+        <h2>Malipo Salama</h2>
+        <div class="notice">
+          Tafadhali wasiliana na huduma kwa wateja ili kupata maelekezo
+          ya malipo. Usitume fedha kabla ya kuthibitisha maelezo ya oda.
+          Bidhaa za kidijitali zitatolewa baada ya malipo kuthibitishwa.
+        </div>
+      </section>
+
+      <section class="content" id="huduma">
+        <div class="contact">
+          <div class="product-icon" aria-hidden="true">💬</div>
+          <h2>Huduma kwa Wateja</h2>
+          <p style="color:var(--muted)">
+            Una swali kuhusu bidhaa? Tuandikie kupitia WhatsApp.
+          </p>
+          <a class="btn"
+             href="https://wa.me/255793401886"
+             target="_blank"
+             rel="noopener noreferrer">
+            WASILIANA KWA WHATSAPP
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p><strong>FUNDI-DIGITAL STORE</strong></p>
+      <p>Mifumo • Programu • Huduma za Kidijitali</p>
+      <p>© 2026 FUNDI-DIGITAL STORE</p>
+    </footer>
+
+  </div>
+
+  <script>
+    "use strict";
+
+    const welcome = document.getElementById("welcome");
+    const store = document.getElementById("store");
+
+    document.getElementById("enterStore").addEventListener("click", () => {
+      welcome.style.display = "none";
+      store.style.display = "block";
+      window.scrollTo(0, 0);
+    });
+
+    document.querySelectorAll(".order-btn").forEach((button) => {
+      button.addEventListener("click", () => {
+        const product = button.dataset.product;
+        const price = Number(button.dataset.price).toLocaleString("en-US");
+        const message =
+          "Habari FUNDI-DIGITAL STORE. Naomba maelezo ya kununua: " +
+          product + ", bei TSh " + price + ".";
+        const url =
+          "https://wa.me/255793401886?text=" + encodeURIComponent(message);
+
+        window.open(url, "_blank", "noopener,noreferrer");
+      });
+    });
+  </script>
+
 </body>
 </html>
