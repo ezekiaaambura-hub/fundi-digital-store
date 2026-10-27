@@ -103,11 +103,12 @@ app.post("/api/admin/login", (req, res) => {
       });
     }
 
-    return res.json({
+        return res.json({
       success: true,
       message: "Umeingia Admin kwa mafanikio."
     });
-  }); 
+  });
+});
 // Kutoka Admin
 app.post("/api/admin/logout", (req, res) => {
   req.session.destroy((error) => {
