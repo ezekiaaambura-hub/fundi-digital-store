@@ -379,14 +379,72 @@
         </div>
       </section>
 
-      <section class="content" id="malipo">
-        <h2>Malipo Salama</h2>
-        <div class="notice">
-          Tafadhali wasiliana na huduma kwa wateja ili kupata maelekezo
-          ya malipo. Usitume fedha kabla ya kuthibitisha maelezo ya oda.
-          Bidhaa za kidijitali zitatolewa baada ya malipo kuthibitishwa.
-        </div>
-      </section>
+<section class="content" id="malipo">
+  <h2>Malipo Salama</h2>
+
+  <div class="notice">
+    <p><strong>Mtandao wa malipo:</strong> M-Pesa</p>
+    <p><strong>Jina la mpokeaji:</strong> NELISON JONAS</p>
+    <p><strong>Kiasi:</strong> TSh 30,000 kwa Mfumo wa MikroTik au TSh 5,000 kwa Programu ya kuflash simu.</p>
+    <p>Baada ya kulipa, jaza taarifa hapa chini. Oda itasubiri kuthibitishwa na Admin.</p>
+  </div>
+
+  <form id="orderForm">
+    <label for="customerName">Jina lako</label>
+    <input id="customerName" name="customerName" type="text" required>
+
+    <label for="phone">Namba yako ya simu</label>
+    <input id="phone" name="phone" type="tel" required>
+
+    <label for="product">Chagua bidhaa</label>
+    <select id="product" name="product" required>
+      <option value="">-- Chagua bidhaa --</option>
+      <option value="Mfumo wa MikroTik">Mfumo wa MikroTik — TSh 30,000</option>
+      <option value="Programu ya kuflash simu">Programu ya kuflash simu — TSh 5,000</option>
+    </select>
+
+    <label for="paymentReference">Namba ya kumbukumbu ya muamala</label>
+    <input id="paymentReference" name="paymentReference" type="text" required>
+
+    <button class="btn" type="submit">Tuma Oda</button>
+    <p id="orderMessage" role="status"></p>
+  </form>
+</section>
+
+<script>
+document.getElementById("orderForm").addEventListener("submit", async function (event) {
+  event.preventDefault();
+
+  const message = document.getElementById("orderMessage");
+  message.textContent = "Inatuma oda...";
+
+  const data = {
+    customerName: document.getElementById("customerName").value.trim(),
+    phone: document.getElementById("phone").value.trim(),
+    product: document.getElementById("product").value,
+    paymentReference: document.getElementById("paymentReference").value.trim()
+  };
+
+  try {
+    const response = await fetch("/api/orders", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.message || "Oda haijatumwa.");
+    }
+
+    message.textContent = "Oda imepokelewa. Subiri Admin athibitishe malipo.";
+    document.getElementById("orderForm").reset();
+  } catch (error) {
+    message.textContent = "Oda haijatumwa. Tafadhali jaribu tena.";
+  }
+});
+</script>
 
       <section class="content" id="huduma">
         <div class="contact">
