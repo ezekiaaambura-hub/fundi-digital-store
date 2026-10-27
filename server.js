@@ -91,14 +91,23 @@ app.post("/api/admin/login", (req, res) => {
     });
   }
 
-  req.session.isAdmin = true;
+   req.session.isAdmin = true;
 
-  return res.json({
-    success: true,
-    message: "Umeingia Admin kwa mafanikio."
-  });
-});
+  req.session.save((error) => {
+    if (error) {
+      console.error("Admin session save failed:", error.message);
 
+      return res.status(500).json({
+        success: false,
+        message: "Kikao cha Admin hakijahifadhiwa. Jaribu tena."
+      });
+    }
+
+    return res.json({
+      success: true,
+      message: "Umeingia Admin kwa mafanikio."
+    });
+  }); 
 // Kutoka Admin
 app.post("/api/admin/logout", (req, res) => {
   req.session.destroy((error) => {
