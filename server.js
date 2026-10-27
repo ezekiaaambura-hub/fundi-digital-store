@@ -111,9 +111,10 @@ app.post("/api/admin/logout", (req, res) => {
 
     res.clearCookie("connect.sid");
 
-    return res.json({
+        return res.json({
       success: true,
       message: "Umetoka Admin."
+    });
   });
 });
 
