@@ -497,6 +497,164 @@ document.getElementById("orderForm").addEventListener("submit", async function (
       });
     });
   </script>
+<section id="admin-panel" style="max-width:700px;margin:30px auto;padding:20px;background:#0a1711;color:#fff;border:1px solid #00e676;border-radius:12px;">
+  <h2 style="color:#00e676;">ADMIN — FUNDI-DIGITAL STORE</h2>
 
+  <form id="adminLoginForm">
+    <label for="adminPassword">Nenosiri la Admin</label>
+    <input id="adminPassword" type="password" required
+      autocomplete="current-password"
+      style="display:block;width:100%;box-sizing:border-box;padding:12px;margin:10px 0;background:#030806;color:white;border:1px solid #00e676;border-radius:6px;">
+
+    <button type="submit"
+      style="padding:12px 20px;background:#00e676;color:#000;border:0;border-radius:6px;font-weight:bold;">
+      Ingia Admin
+    </button>
+  </form>
+
+  <p id="adminMessage" role="status"></p>
+
+  <div id="adminOrders" hidden>
+    <h3>Oda za Wateja</h3>
+    <button id="refreshOrders" type="button">Sasisha Oda</button>
+    <div id="ordersList"></div>
+    <button id="adminLogout" type="button">Toka Admin</button>
+  </div>
+</section>
+
+<script>
+(() => {
+  const form = document.getElementById("adminLoginForm");
+  const message = document.getElementById("adminMessage");
+  const ordersBox = document.getElementById("adminOrders");
+  const ordersList = document.getElementById("ordersList");
+
+  async function api(url, options = {}) {
+    const response = await fetch(url, {
+      credentials: "same-origin",
+      ...options,
+      headers: {
+        "Content-Type": "application/json",
+        ...(options.headers || {})
+      }
+    });
+
+    const result = await response.json();
+    if (!response.ok || result.success === false) {
+      throw new Error(result.message || "Ombi halijafanikiwa.");
+    }
+    return result;
+  }
+
+  async function loadOrders() {
+    message.textContent = "Inapakia oda...";
+    ordersList.replaceChildren();
+
+    try {
+      const result = await api("/api/admin/orders");
+      const orders = result.orders || result.data || [];
+
+      if (!orders.length) {
+        ordersList.textContent = "Hakuna oda zilizopatikana.";
+      }
+
+      orders.forEach(order => {
+        const card = document.createElement("div");
+        card.style.cssText =
+          "padding:14px;margin:12px 0;border:1px solid #00e676;border-radius:8px;overflow-wrap:anywhere;";
+
+        const details = document.createElement("p");
+        details.textContent =
+          "Oda #" + order.id +
+          " | Mteja: " + (order.customerName || "—") +
+          " | Simu: " + (order.phone || "—") +
+          " | Bidhaa: " + (order.product || "—") +
+          " | Kumbukumbu ya malipo: " + (order.paymentReference || "—") +
+          " | Hali: " + (order.status || "PENDING");
+        card.appendChild(details);
+
+        const status = String(order.status || "PENDING").toUpperCase();
+
+        if (status !== "APPROVED" && status !== "REJECTED") {
+          ["APPROVED", "REJECTED"].forEach(nextStatus => {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.textContent =
+              nextStatus === "APPROVED" ? "Thibitisha Malipo" : "Kataa Oda";
+            button.style.cssText =
+              "padding:10px;margin:5px;background:" +
+              (nextStatus === "APPROVED" ? "#00e676" : "#d9534f") +
+              ";color:#000;border:0;border-radius:5px;";
+
+            button.addEventListener("click", async () => {
+              if (!confirm(
+                nextStatus === "APPROVED"
+                  ? "Umethibitisha kuwa pesa zimeingia kweli?"
+                  : "Unataka kukataa oda hii?"
+              )) return;
+
+              try {
+                await api(
+                  "/api/admin/orders/" + encodeURIComponent(order.id) + "/status",
+                  {
+                    method: "PATCH",
+                    body: JSON.stringify({ status: nextStatus })
+                  }
+                );
+                message.textContent = "Hali ya oda imesasishwa.";
+                await loadOrders();
+              } catch (error) {
+                message.textContent = error.message;
+              }
+            });
+
+            card.appendChild(button);
+          });
+        }
+
+        ordersList.appendChild(card);
+      });
+
+      message.textContent = "Oda zimepakiwa.";
+    } catch (error) {
+      message.textContent = error.message;
+    }
+  }
+
+  form.addEventListener("submit", async event => {
+    event.preventDefault();
+    message.textContent = "Inaingia...";
+
+    try {
+      await api("/api/admin/login", {
+        method: "POST",
+        body: JSON.stringify({
+          password: document.getElementById("adminPassword").value
+        })
+      });
+
+      document.getElementById("adminPassword").value = "";
+      ordersBox.hidden = false;
+      form.hidden = true;
+      await loadOrders();
+    } catch (error) {
+      message.textContent = error.message;
+    }
+  });
+
+  document.getElementById("refreshOrders").addEventListener("click", loadOrders);
+
+  document.getElementById("adminLogout").addEventListener("click", async () => {
+    try {
+      await api("/api/admin/logout", { method: "POST", body: "{}" });
+      ordersBox.hidden = true;
+      form.hidden = false;
+      message.textContent = "Umetoka kwenye Admin.";
+    } catch (error) {
+      message.textContent = error.message;
+    }
+  });
+})();
+</script>
 </body>
 </html>
