@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#030806">
+  <title>Admin | FUNDI-DIGITAL STORE</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #030806;
+      --panel: #0a1711;
+      --green: #00e676;
+      --gold: #e8c766;
+      --white: #f4fff7;
+      --muted: #b3c2b8;
+      --border: #19472e;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      background: radial-gradient(ellipse at top, #10351f, var(--bg) 70%);
+      color: var(--white);
+      font-family: Arial, sans-serif;
+    }
+
+    .panel {
+      width: 100%;
+      max-width: 430px;
+      padding: 28px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: var(--panel);
+      box-shadow: 0 15px 50px #0008;
+    }
+
+    .logo {
+      text-align: center;
+      color: var(--green);
+      font-size: 25px;
+      font-weight: 900;
+    }
+
+    h1 {
+      color: var(--gold);
+      text-align: center;
+      font-size: 22px;
+    }
+
+    p {
+      color: var(--muted);
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin: 20px 0 7px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: #030806;
+      color: var(--white);
+      font-size: 16px;
+    }
+
+    button, .home {
+      display: block;
+      width: 100%;
+      margin-top: 16px;
+      padding: 14px;
+      border: 0;
+      border-radius: 9px;
+      background: var(--green);
+      color: #031008;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    button:disabled { opacity: .6; }
+
+    #message {
+      min-height: 24px;
+      overflow-wrap: anywhere;
+    }
+
+    .back {
+      display: block;
+      margin-top: 18px;
+      color: var(--gold);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <main class="panel">
+    <div class="logo">FUNDI-DIGITAL STORE</div>
+    <h1>INGIA ADMIN</h1>
+    <p>Sehemu ya usimamizi wa duka</p>
+
+    <form id="loginForm">
+      <label for="password">Nenosiri la Admin</label>
+      <input
+        id="password"
+        name="password"
+        type="password"
+        autocomplete="current-password"
+        required
+        placeholder="Weka nenosiri la Admin"
+      >
+      <button id="loginButton" type="submit">INGIA</button>
+    </form>
+
+    <p id="message" role="status" aria-live="polite"></p>
+    <a class="back" href="/">Rudi dukani</a>
+  </main>
+
+  <script>
+    "use strict";
+
+    const form = document.getElementById("loginForm");
+    const message = document.getElementById("message");
+    const button = document.getElementById("loginButton");
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      message.textContent = "";
+      button.disabled = true;
+      button.textContent = "INAINGIA...";
+
+      try {
+        const response = await fetch("/api/admin/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "same-origin",
+          body: JSON.stringify({
+            password: document.getElementById("password").value
+          })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+          throw new Error(result.message || "Imeshindikana kuingia.");
+        }
+
+        message.textContent = "Umeingia kwa mafanikio. Ukurasa wa kusimamia oda bado unatengenezwa.";
+        form.reset();
+      } catch (error) {
+        message.textContent = error.message || "Tatizo la muunganisho. Jaribu tena.";
+      } finally {
+        button.disabled = false;
+        button.textContent = "INGIA";
+      }
+    });
+  </script>
+</body>
+</html>
