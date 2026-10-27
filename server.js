@@ -114,9 +114,10 @@ app.post("/api/admin/logout", (req, res) => {
     return res.json({
       success: true,
       message: "Umetoka Admin."
-    });
   });
-});// Kushughulikia kurasa ambazo hazijapatikana
+});
+
+// Kushughulikia kurasa ambazo hazijapatikana
 app.use((req, res) => {
   res.status(404).json({
     success: false,
