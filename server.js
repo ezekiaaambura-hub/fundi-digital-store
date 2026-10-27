@@ -73,7 +73,50 @@ app.get("/api/db-health", async (req, res) => {
     });
   }
 });
-// Kushughulikia kurasa ambazo hazijapatikana
+// Kuingia Admin
+app.post("/api/admin/login", (req, res) => {
+  if (!ADMIN_PASSWORD) {
+    return res.status(503).json({
+      success: false,
+      message: "Admin password haijawekwa."
+    });
+  }
+
+  const password = String(req.body.password || "");
+
+  if (password !== ADMIN_PASSWORD) {
+    return res.status(401).json({
+      success: false,
+      message: "Nenosiri si sahihi."
+    });
+  }
+
+  req.session.isAdmin = true;
+
+  return res.json({
+    success: true,
+    message: "Umeingia Admin kwa mafanikio."
+  });
+});
+
+// Kutoka Admin
+app.post("/api/admin/logout", (req, res) => {
+  req.session.destroy((error) => {
+    if (error) {
+      return res.status(500).json({
+        success: false,
+        message: "Imeshindikana kutoka Admin."
+      });
+    }
+
+    res.clearCookie("connect.sid");
+
+    return res.json({
+      success: true,
+      message: "Umetoka Admin."
+    });
+  });
+});// Kushughulikia kurasa ambazo hazijapatikana
 app.use((req, res) => {
   res.status(404).json({
     success: false,
