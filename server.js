@@ -4,6 +4,7 @@
 const express = require("express");
 const session = require("express-session");
 const path = require("path");
+const crypto = require("crypto");
 const { Pool } = require("pg");
 const app = express();
 
