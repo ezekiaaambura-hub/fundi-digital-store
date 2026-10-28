@@ -566,10 +566,10 @@ document.getElementById("orderForm").addEventListener("submit", async function (
         const details = document.createElement("p");
         details.textContent =
           "Oda #" + order.id +
-          " | Mteja: " + (order.customerName || "—") +
-          " | Simu: " + (order.phone || "—") +
-          " | Bidhaa: " + (order.product || "—") +
-          " | Kumbukumbu ya malipo: " + (order.paymentReference || "—") +
+"Mteja: " + (order.customer_name || order.customerName || "—") +
+" | Simu: " + (order.phone || "—") +
+" | Bidhaa: " + (order.product || "—") +
+" | Kumbukumbu ya malipo: " + (order.payment_reference || order.paymentReference || "—") +
           " | Hali: " + (order.status || "PENDING");
         card.appendChild(details);
 
