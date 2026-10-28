@@ -145,9 +145,16 @@ async function ensureOrdersTable() {
       payment_reference TEXT,
       status TEXT NOT NULL DEFAULT 'PENDING'
         CHECK (status IN ('PENDING', 'APPROVED', 'REJECTED')),
-      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      download_token_hash TEXT
     )
   `);
+
+  await pool.query(`
+    ALTER TABLE store_orders
+    ADD COLUMN IF NOT EXISTS download_token_hash TEXT
+  `);
+}
 }
 
 function requireAdmin(req, res, next) {
