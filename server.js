@@ -183,10 +183,10 @@ app.post("/api/orders", async (req, res) => {
   const reference = String(req.body.paymentReference || "").trim();
 
   const products = {
-  "Mfumo wa MikroTik": 30000,
-  "Mfumo wa Vocha za MikroTik": 5000,
-  "Programu ya kuflash simu": 5000
-};
+    "Mfumo wa MikroTik": 30000,
+    "Mfumo wa Vocha za MikroTik": 5000,
+    "Programu ya kuflash simu": 5000
+  };
 
   if (
     customerName.length < 2 ||
@@ -232,34 +232,6 @@ app.post("/api/orders", async (req, res) => {
       message: "Oda imehifadhiwa. Subiri malipo yakaguliwe.",
       order: result.rows[0],
       downloadToken
-    });
-  } catch (error) {
-    console.error("Order creation failed:", error.message);
-
-    return res.status(500).json({
-      success: false,
-      message: "Oda haijahifadhiwa. Jaribu tena."
-    });
-  }
-
-    const result = await pool.query(
-      `INSERT INTO store_orders
-       (customer_name, phone, product, amount, payment_reference)
-       VALUES ($1, $2, $3, $4, $5)
-       RETURNING id, status, created_at`,
-      [
-        customerName,
-        phone,
-        product,
-        products[product],
-        reference || null
-      ]
-    );
-
-    return res.status(201).json({
-      success: true,
-      message: "Oda imehifadhiwa. Subiri malipo yakaguliwe.",
-      order: result.rows[0]
     });
   } catch (error) {
     console.error("Order creation failed:", error.message);
