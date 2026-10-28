@@ -157,7 +157,7 @@ async function ensureOrdersTable() {
 }
 }
 
-function requireAdmin(req, res, next) {
+function requireAdmin(req, res, next) 
   if (!req.session || req.session.isAdmin !== true) {
     return res.status(401).json({
       success: false,
