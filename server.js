@@ -242,7 +242,64 @@ app.post("/api/orders", async (req, res) => {
     });
   }
 });
+// Mteja anapakua MikhMon baada ya malipo kuidhinishwa
+app.post("/api/download/mikhmon", async (req, res) => {
+  if (!pool) {
+    return res.status(503).json({
+      success: false,
+      message: "Database haijaunganishwa."
+    });
+  }
 
+  const token = String(req.body.downloadToken || "").trim();
+
+  if (!/^[a-f0-9]{64}$/i.test(token)) {
+    return res.status(400).json({
+      success: false,
+      message: "Token si sahihi."
+    });
+  }
+
+  try {
+    await ensureOrdersTable();
+
+    const tokenHash = crypto
+      .createHash("sha256")
+      .update(token)
+      .digest("hex");
+
+    const result = await pool.query(
+      `SELECT product, status
+       FROM store_orders
+       WHERE download_token_hash = $1
+       LIMIT 1`,
+      [tokenHash]
+    );
+
+    if (
+      result.rowCount === 0 ||
+      result.rows[0].status !== "APPROVED" ||
+      result.rows[0].product !== "Mfumo wa Vocha za MikroTik"
+    ) {
+      return res.status(403).json({
+        success: false,
+        message: "Malipo hayajaidhinishwa au token si sahihi."
+      });
+    }
+
+    return res.download(
+      path.join(__dirname, "MikhMonCE-v1.3.4.zip"),
+      "MikhMonCE-v1.3.4.zip"
+    );
+  } catch (error) {
+    console.error("MikhMon download failed:", error.message);
+
+    return res.status(500).json({
+      success: false,
+      message: "Upakuaji umeshindikana. Jaribu tena."
+    });
+  }
+});
 // Admin anaona oda zote
 app.get("/api/admin/orders", requireAdmin, async (req, res) => {
   if (!pool) {
